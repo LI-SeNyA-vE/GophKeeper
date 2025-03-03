@@ -2,8 +2,8 @@ package main
 
 import (
 	"GophKeeper/internal/logger"
-	"GophKeeper/internal/server/storage"
-	"GophKeeper/internal/server/storage/database/postgresql"
+	"GophKeeper/internal/server/repository"
+	"GophKeeper/internal/server/repository/database/postgresql"
 	"log"
 	"net/http"
 	"time"
@@ -11,7 +11,7 @@ import (
 
 func main() {
 	var (
-		keeperStorage storage.KeeperStorage
+		keeperStorage repository.UserRepository
 		err           error
 	)
 
