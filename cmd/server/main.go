@@ -1,9 +1,14 @@
 package main
 
 import (
+	serverconfig "GophKeeper/internal/config/server"
 	"GophKeeper/internal/logger"
+	"GophKeeper/internal/server/delivery/httpapi/handlers"
+	"GophKeeper/internal/server/delivery/httpapi/middleware"
+	"GophKeeper/internal/server/delivery/httpapi/router"
 	"GophKeeper/internal/server/repository"
 	"GophKeeper/internal/server/repository/database/postgresql"
+	"GophKeeper/internal/server/usecase"
 	"log"
 	"net/http"
 	"time"
@@ -16,25 +21,34 @@ func main() {
 	)
 
 	// Запуск pprof на localhost:6060 для профилирования
-	go Pprof()
+	//go Pprof()
 
 	log := logger.NewLogger()
 	log.Info("starting server")
 
+	cfg := serverconfig.NewConfigServerMock(log)
+
 	// Попытка подключения к БД PostgreSQL несколько раз.
 	for i := 0; i < 3; i++ {
 		//Создание переменной для работы с БД
-		keeperStorage, err = postgresql.NewPostgresStorage("postgresql://Senya@localhost:5432/GopheKeeper?sslmode=disable")
+		keeperStorage, err = postgresql.NewPostgresStorage(cfg.FlagDatabaseDsn)
 		if err == nil {
 			break
 		}
 		time.Sleep(1 * time.Second)
 	}
 
-	_ = keeperStorage
+	uc := usecase.NewUseCase(keeperStorage, cfg, log)
+	handle := handlers.NewHandlers(uc, log)
+	mw := middleware.NewMiddleware(log)
+	r := router.NewRouter(log, mw, handle)
+	r.SetupRouter()
 
-	//Создание роутеров
-
+	err = http.ListenAndServe("localhost:6969", r.Mux)
+	if err != nil {
+		log.Fatalf("Ошибка сервера: %v", err)
+		return
+	}
 }
 
 func Pprof() {

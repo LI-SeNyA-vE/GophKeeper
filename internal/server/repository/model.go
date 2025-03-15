@@ -1,19 +1,17 @@
 // Package repository определяет общий интерфейс для работы с хранилищем паролей (UserRepository)
 package repository
 
-import "errors"
-
-var (
-	ErrNotFound = errors.New("по переданным данным, в базе нет записи")
+import (
+	"GophKeeper/internal/server/domain"
 )
 
-type UserRepository interface {
-	SearchUser(login string, password string) error
-	RegistrationUser(login string, password string) error
-	AuthorizationUser(login string, password string) error
-}
+//var (
+//	ErrNotFound = errors.New("по переданным данным, в базе нет записи")
+//)
 
-type UserCred struct {
-	Login    string
-	Password string
+type UserRepository interface {
+	SearchUser(login string) (userNoPass domain.User, err error)
+	RegistrationUser(uuid string, login string, password string) (newUser domain.User, err error)
+	AuthorizationUser(login string) (fullUser domain.User, err error)
+	DeleteUser(uuid string)
 }

@@ -1,0 +1,38 @@
+###
+POST http://localhost:6969/authorization
+Content-Type: application/json
+
+{
+  "Login": "Senya",
+  "Password": "1q2w3e4r5t"
+}
+###
+
+###
+POST http://localhost:6969/registration
+Content-Type: application/json
+
+{
+  "Login": "Senya",
+  "Password": "1q2w3e4r5t"
+}
+### Ожидается
+### POST http://localhost:6969/registration
+###
+### HTTP/1.1 200 OK
+### Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDE2OTk5NzIsInVzZXJfdXVpZCI6IjYyN2I0MDQ3LWIyNjMtNDkzOS04MTg3LTZhZDYzMDFlNTQ3NSJ9.VnazQCg6ue_5V25tyqqchvlHWB9CcTQcLURrV46lGpQ
+### Set-Cookie: refresh_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDE3ODU0NzIsInVzZXJfdXVpZCI6IjYyN2I0MDQ3LWIyNjMtNDkzOS04MTg3LTZhZDYzMDFlNTQ3NSJ9.Fm2tlQjPOUZr_zkhSYJmX9R6rPk4qsA1Am1uUTcdlfY; Path=/auth/refresh; Expires=Wed, 12 Mar 2025 13:17:52 GMT; HttpOnly; SameSite=Strict
+### Date: Tue, 11 Mar 2025 13:17:52 GMT
+### Content-Length: 88
+### Content-Type: text/plain; charset=utf-8
+###
+### Вы успешно зарегистрировались и вошли в систему
+###
+### Response code: 200 (OK); Time: 15ms (15 ms); Content length: 47 bytes (47 B)
+###
+### Cookies are preserved between requests:
+### > /Users/senya/GolandProjects/GophKeeper/.idea/httpRequests/http-client.cookies
+### В файле:
+### domain	path	name	value	date
+### localhost	/auth/refresh	refresh_token	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDE3ODU0NzIsInVzZXJfdXVpZCI6IjYyN2I0MDQ3LWIyNjMtNDkzOS04MTg3LTZhZDYzMDFlNTQ3NSJ9.Fm2tlQjPOUZr_zkhSYJmX9R6rPk4qsA1Am1uUTcdlfY	Tue, 11-Mar-2025 13:19:18
+
